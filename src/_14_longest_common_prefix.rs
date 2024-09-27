@@ -1,23 +1,24 @@
 #[allow(dead_code)]
 pub fn solution_1(strs: Vec<String>) -> String {
-    let mut parts: Vec<&str> = Vec::new();
-
-    let first_word:&String = &strs[0];
-
-    for i in 0..first_word.len() {
-        parts.push(&first_word[i..]);
-        parts.push(&first_word[..i+1]);
+    if strs.is_empty() {
+        return String::new();
     }
-    parts.iter().for_each(|&i| println!("{}", i));
-    let longest_prefix: Vec<&&str> = parts
-        .iter()
-        .filter(|&part| strs.iter().all(|item| item.contains(part)))
-        .collect();
 
-    return match longest_prefix.last() {
-        Some(&res) => res.to_string(),
-        None => "".to_string( ),
-    };
+    let mut first_word = strs[0].to_string();
+
+    for item in strs.iter() {
+        if item == &first_word {continue;}
+
+        while !item.starts_with(&first_word) {
+            first_word.pop();
+            
+            if first_word.is_empty() {
+                return "".to_string();
+            }
+        }
+    }
+
+    first_word
 }
 
 #[cfg(test)]
@@ -41,6 +42,11 @@ mod tests {
 
     #[test]
     fn test_example4() {
-        assert_eq!(solution_1(vec!["cir".to_string(), "car".to_string()]), "");
+        assert_eq!(solution_1(vec!["cir".to_string(), "car".to_string()]), "c");
+    }
+
+    #[test]
+    fn test_example5() {
+        assert_eq!(solution_1(vec!["aaa".to_string(), "aa".to_string(), "aaa".to_string()]), "aa");
     }
 }

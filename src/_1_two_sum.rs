@@ -28,7 +28,7 @@ pub fn solution_better_performance(nums: Vec<i32>, target: i32) -> Vec<i32> {
 }
 
 #[cfg(test)]
-mod tests {
+pub mod tests {
     use super::*;
 
     #[test]
